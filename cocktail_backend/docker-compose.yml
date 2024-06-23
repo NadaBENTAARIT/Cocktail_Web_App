@@ -1,0 +1,43 @@
+version: '3'
+
+services:
+
+  backend:
+    build: php
+    container_name: backend_symfony
+    ports:
+      - "8000:80"
+    volumes:
+      - ./php/vhosts:/etc/apache2/sites-enabled
+      - ./:/var/www
+    restart: always
+    networks:
+      - datapipeline
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=admin
+      - MONGO_INITDB_DATABASE=project
+    ports:
+      - "27017:27017"
+    networks:
+      datapipeline:
+        ipv4_address: 173.19.0.4
+    volumes: 
+      - ./data:/data/db
+
+ 
+
+  
+
+networks:
+  datapipeline:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: "173.19.0.0/16"

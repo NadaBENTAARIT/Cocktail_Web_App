@@ -1,0 +1,20 @@
+doctrine_mongodb:
+    connections:
+        default:
+            server: 'mongodb://173.19.0.4:27017'
+           
+            options:
+                username: 'admin'
+                password: 'admin'
+                authMechanism: "SCRAM-SHA-1"
+
+    default_database: 'project'
+    document_managers:
+        default:
+            auto_mapping: true  
+            mappings: 
+                App:
+                    is_bundle: false
+                    type: attribute 
+                    dir: '%kernel.project_dir%/src/Document'
+                    prefix: 'App\Document'
